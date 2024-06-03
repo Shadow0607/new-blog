@@ -1,7 +1,17 @@
 <template>
   <div>
     <header>
-      <h1>{{ pageTitle }}</h1>
+      <div class="header-container">
+        <h1>{{ pageTitle }}</h1>
+        <NuxtLink to="/">
+          <span>首頁</span>
+        </NuxtLink>
+        <NuxtLink to="/about">
+          <span>關於我</span>
+        </NuxtLink>
+      </div>
+
+
       <div class="login-button">
         <i class="material-icons" @click="showModal = true">login</i>
       </div>
@@ -34,9 +44,7 @@
         <nav>
           <ul>
             <li>
-              <NuxtLink to="/">
-                <span>首頁</span>
-              </NuxtLink>
+
             </li>
             <li>
               <NuxtLink to="/game">
@@ -44,9 +52,7 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/about">
-                <span>關於我</span>
-              </NuxtLink>
+
             </li>
           </ul>
         </nav>
@@ -116,6 +122,12 @@ aside {
 nav ul {
   list-style: none;
   padding: 0;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  /* 垂直居中對齊 */
 }
 
 nav ul li {
@@ -202,5 +214,6 @@ nav ul li a span:first-child {
 
 .login-button {
   float: right;
+  align-items: center;
 }
 </style>
