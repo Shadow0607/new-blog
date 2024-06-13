@@ -3,26 +3,26 @@
     <header>
       <div class="header-container">
         <h1>{{ pageTitle }}</h1>
-        <NuxtLink to="/">
-          <span>首頁</span>
-        </NuxtLink>
-        <NuxtLink to="/about">
-          <span>關於我</span>
-        </NuxtLink>
-      </div>
-
-
-      <div class="login-button">
-        <i class="material-icons" @click="showModal = true">login</i>
+        <div class="badge-container">
+          <UBadge
+            v-for="(link, index) in links"
+            :key="index"
+          >
+            <NuxtLink :to="link.to">
+              <span>{{ link.text }}</span>
+            </NuxtLink>
+          </UBadge>
+        </div>
+        <div class="login-button">
+          <UIcon name="line-md:account" dynamic @click="showModal = true" class="login-icon">login</UIcon>
+        </div>
       </div>
     </header>
     <div v-if="showModal" class="modal-container" @click="closeModal">
       <div class="modal" @click.stop>
         <span class="close" @click.stop="closeModal">&times;</span>
         <div class="modal-content">
-          <h3 class="modal-title">
-            Log In
-          </h3>
+          <h3 class="modal-title">Log In</h3>
           <form class="login-form" @submit.prevent="login">
             <div class="form-group">
               <label for="username" class="label">Username:</label>
@@ -32,31 +32,12 @@
               <label for="password" class="label">Password:</label>
               <input id="password" v-model="password" type="password" class="input-field">
             </div>
-            <button type="submit" class="submit-button">
-              Submit
-            </button>
+            <button type="submit" class="submit-button">Submit</button>
           </form>
         </div>
       </div>
     </div>
     <div class="container">
-      <aside>
-        <nav>
-          <ul>
-            <li>
-
-            </li>
-            <li>
-              <NuxtLink to="/game">
-                <span>遊戲</span>
-              </NuxtLink>
-            </li>
-            <li>
-
-            </li>
-          </ul>
-        </nav>
-      </aside>
       <slot />
     </div>
   </div>
@@ -69,20 +50,21 @@ export default {
       pageTitle: 'My Website',
       showModal: false,
       username: '',
-      password: ''
+      password: '',
+      links: [
+        {text: '首頁', to: '/' },
+        {text: '關於我', to: '/about' },
+        {text: '遊戲', to: '/game' },
+      ]
     }
   },
   methods: {
     login() {
-      // Handle login logic here
       this.username = ''
       this.password = ''
-      // You can add your login logic here, e.g., sending a request to your backend
-      // After successful login, you can close the modal by setting showModal to false
       this.showModal = false
     },
     closeModal() {
-      // Close modal and clear username and password
       this.showModal = false
       this.username = ''
       this.password = ''
@@ -92,42 +74,47 @@ export default {
 </script>
 
 <style>
-.container {
-  display: flex;
-  height: 100vh;
-  /* Fill the entire viewport height */
-}
-
-header {
-  padding: 20px;
-  background-color: #333;
-  color: white;
-}
-
-main {
-  padding: 20px;
-}
-
-aside {
-  display: flex;
-  flex-direction: column;
-  /* Align nav vertically */
-  padding: 20px;
-  width: 200px;
-  background-color: #f4f4f4;
-  height: 100%;
-  /* Fill the entire container height */
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .header-container {
   display: flex;
   align-items: center;
-  /* 垂直居中對齊 */
+  justify-content: space-between;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+}
+
+.badge-container {
+  display: flex;
+  align-items: center;
+}
+
+.login-button {
+  cursor: pointer;
+}
+
+.login-icon {
+  font-size: 24px;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+aside {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
 }
 
 nav ul li {
@@ -137,83 +124,63 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: #333;
-  display: flex;
-  justify-content: space-between;
-}
-
-nav ul li a span:first-child {
-  margin-right: 10px;
 }
 
 .modal-container {
   position: fixed;
-  z-index: 1000;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.container {
-  display: flex;
-  height: 100vh;
-  /* Fill the entire viewport height */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modal {
-  background-color: #fefefe;
+  background-color: #fff;
   padding: 20px;
-  border: 1px solid #888;
+  border-radius: 5px;
   position: relative;
-}
-
-.modal-content {
-  color: #000;
 }
 
 .close {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
-  font-size: 20px;
 }
 
-.login-form {
-  text-align: center;
+.form-group {
+  margin-bottom: 15px;
 }
 
 .label {
-  color: #000;
   display: block;
   margin-bottom: 5px;
-  float: left;
 }
 
 .input-field {
   width: 100%;
   padding: 8px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .submit-button {
-  color: #fff;
+  width: 100%;
+  padding: 10px;
   background-color: #333;
+  color: #fff;
   border: none;
   border-radius: 4px;
-  padding: 10px 20px;
   cursor: pointer;
 }
 
-.login-button {
-  float: right;
-  align-items: center;
+.submit-button:hover {
+  background-color: #555;
 }
 </style>
