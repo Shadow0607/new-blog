@@ -82,7 +82,6 @@ body {
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background-color: #333;
   color: white;
   padding: 20px;
@@ -90,10 +89,11 @@ body {
 
 .badge-container {
   display: flex;
-  align-items: center;
+  align-items: left;
 }
 
 .login-button {
+  margin-left: auto;
   cursor: pointer;
 }
 
