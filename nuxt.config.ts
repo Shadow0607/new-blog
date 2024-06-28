@@ -6,5 +6,6 @@ export default defineNuxtConfig({
     public: {
       GITHUB_TOKEN: process.env.GITHUB_TOKEN
     }
-  }
+  },
+  plugins: ['~/plugins/auth.js']
 })
