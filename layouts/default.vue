@@ -80,6 +80,7 @@ const isSubmitting = ref(false);
 const captchaSvg = ref('');
 const captchaAnswer = ref('');
 let correctCaptchaText = '';
+const nuxtApp = useNuxtApp();
 
 const errors = reactive({
   username: '',
@@ -137,20 +138,22 @@ const handleSubmit = async () => {
     return;
   }
 
-  isSubmitting.value = true;
-
   try {
-    // 模擬 API 調用
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    isAuthenticated.value = true;
-    showModal.value = false;
+    const response = await nuxtApp.$auth.authenticate(username.value, password.value);
+    if (response.results) {  // 使用你的 API 回應的正確屬性
+      isAuthenticated.value = true;
+      showModal.value = false;
+    } else {
+      alert('Login failed. Please check your credentials.');
+    }
   } catch (error) {
     console.error('Login error:', error);
     alert('An error occurred. Please try again later.');
   } finally {
-    isSubmitting.value = false;
-    username.value = password.value = captchaAnswer.value = '';
+    username.value = '';
+    password.value = '';
     refreshCaptcha();
+    isSubmitting.value = false;
   }
 };
 
