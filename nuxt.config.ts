@@ -7,5 +7,5 @@ export default defineNuxtConfig({
       GITHUB_TOKEN: process.env.GITHUB_TOKEN
     }
   },
-  plugins: ['~/plugins/auth.js']
+  plugins: ['~/plugins/auth.js','~/plugins/captchaGenerator.js']
 })
